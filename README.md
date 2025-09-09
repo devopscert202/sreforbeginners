@@ -158,4 +158,3 @@ This course is inspired by **real-world SRE practices** pioneered at Google, Net
 
 ---
 
-👉 Do you also want me to **add a “Tech Stack / Tools” badge section** (Jenkins, Docker, Prometheus, Grafana, AWS, etc.) at the top of the README so the repo looks even more professional?
