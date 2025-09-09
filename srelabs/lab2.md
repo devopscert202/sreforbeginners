@@ -35,7 +35,6 @@ By the end of this lab, you will be able to:
    nano checkout-service-slo.md
 ````
 
----
 
 ### Step 2: Define SLIs (Service Level Indicators)
 
