@@ -159,5 +159,3 @@ You have successfully:
 This EC2 instance will be reused in future labs as the foundation for SRE practices.
 
 
-👉 Do you want me to **apply this same structure (Intro → Objective → Prereqs → Steps → Validation → Further Learning → Completion)** for **all 12 labs** so they’re uniform and GitHub-ready?
-```
