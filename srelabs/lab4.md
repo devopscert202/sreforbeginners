@@ -235,5 +235,3 @@ You are now ready to explore **incident management** in the next lab.
 
 ```
 
-👉 Shall I move on to **Lab 05 (`lab05.md`: Implementing Incident Management with Prometheus)** next, using this same detailed and clarified approach?
-```
