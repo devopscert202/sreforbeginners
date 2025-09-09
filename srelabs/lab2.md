@@ -33,48 +33,48 @@ By the end of this lab, you will be able to:
 2. Use the `nano` editor to create a new file:  
    ```bash
    nano checkout-service-slo.md
-````
+
 
 
 ### Step 2: Define SLIs (Service Level Indicators)
 
 Add the following content inside the file:
 
-```markdown
+
 # Service Level Indicators (SLIs)
 
 - **Availability:** Percentage of successful HTTP requests (status code 200/201).
 - **Latency:** 95th percentile (p95) of checkout request latency should be < 300ms.
 - **Error Rate:** Percentage of failed requests (4xx, 5xx) out of total requests.
 - **Throughput:** Number of checkout requests processed per second.
-```
+
 
 💡 **Note:** SLIs are **raw measurements** that describe the system’s behavior.
 
----
+
 
 ### Step 3: Define SLOs (Service Level Objectives)
 
 Continue adding the following to the file:
 
-```markdown
+
 # Service Level Objectives (SLOs)
 
 - Availability: 99.9% per 30-day rolling window.
 - Latency: 95% of checkout requests complete in < 300 ms.
 - Error Rate: ≤ 0.1% failed requests per month.
 - Throughput: Service must handle 100 requests per second.
-```
+
 
 💡 SLOs are **targets for SLIs**. They must be **achievable but challenging**.
 
----
+
 
 ### Step 4: Define SLA (Service Level Agreement)
 
 Now add SLA details to the file:
 
-```markdown
+
 # Service Level Agreement (SLA)
 
 - SLA Uptime: 99% uptime per calendar month.
@@ -83,7 +83,7 @@ Now add SLA details to the file:
 
 ⚠️ **Reminder:** SLA is **customer-facing**, while SLOs are **internal targets**.
 
----
+
 
 ### Step 5: Save and Exit the File
 
@@ -96,7 +96,7 @@ Verify file contents:
 cat checkout-service-slo.md
 ```
 
----
+
 
 ## 🧾 Testing & Validation
 
@@ -114,7 +114,6 @@ cat checkout-service-slo.md
 
 ✅ Expected output should include sections for **SLIs, SLOs, and SLA** with the content written above.
 
----
 
 ## 📌 Further Learning (SRE Context)
 
