@@ -195,4 +195,4 @@ You have successfully:
 
 This prepares you for **toil reduction and automated recovery** in the next lab.
 
-```
+
