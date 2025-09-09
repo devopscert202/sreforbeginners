@@ -197,6 +197,5 @@ You have successfully:
 
 This prepares you for **monitoring and alerting** in the next labs.
 
-```
 
 
