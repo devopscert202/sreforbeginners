@@ -331,6 +331,3 @@ You have successfully:
 * Validated outputs using curl and browser tests.
 
 This lab demonstrates how SREs enable **safe, reliable release engineering practices**.
-
-👉 Shall I move ahead and process **Lab 08 (`lab08.md`: Automating SRE with Ansible and HTTPS Nginx)** next in the same style?
-```
