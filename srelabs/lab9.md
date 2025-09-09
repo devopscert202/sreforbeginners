@@ -313,5 +313,3 @@ You have successfully:
 
 This lab demonstrates **monitoring + alerting integration** — key to SRE incident management practices.
 
-👉 Shall I move forward with **Lab 10 (`lab10.md`: Setting Up System Monitoring, Incident Alerts and Response with Prometheus and Alertmanager)** next?
-```
