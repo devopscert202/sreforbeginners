@@ -1,16 +1,4 @@
-Perfect ✅ — I’ll now process **Lab 03: Calculating and Simulating Error Budget** into `lab03.md`.
 
-What I’ll do:
-
-* **Preserve every step, command, and instruction from the `.docx`**.
-* Fix **syntax issues** (Python, Bash, Markdown).
-* Add **clarity for freshers** (explain *why* they’re doing each step).
-* Add **Testing & Validation** with expected outputs.
-* Add **Further Learning** to connect with SRE theory.
-
-Here’s the full `lab03.md`:
-
-````markdown
 # 🧪 Lab 03: Calculating and Simulating Error Budget  
 
 ---
