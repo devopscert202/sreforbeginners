@@ -1,8 +1,3 @@
-Perfect — now that I’ve processed **all three decks** (`Foundations`, `Automation & Alerting`, `CI/CD & Chaos Engineering`), here’s the **updated `README.md`** that integrates **all course modules** into a single structured document.
-
----
-
-```markdown
 # 🚀 Site Reliability Engineering (SRE) Course
 
 This repository contains learning materials, examples, and hands-on exercises for a complete **Site Reliability Engineering (SRE)** training program.  
