@@ -40,7 +40,7 @@ By the end of this lab, you will be able to:
 
 Add the following content inside the file:
 
-
+```markdown
 # Service Level Indicators (SLIs)
 
 - **Availability:** Percentage of successful HTTP requests (status code 200/201).
@@ -50,14 +50,14 @@ Add the following content inside the file:
 
 
 💡 **Note:** SLIs are **raw measurements** that describe the system’s behavior.
-
+```
 
 
 ### Step 3: Define SLOs (Service Level Objectives)
 
 Continue adding the following to the file:
 
-
+```markdown
 # Service Level Objectives (SLOs)
 
 - Availability: 99.9% per 30-day rolling window.
@@ -67,22 +67,22 @@ Continue adding the following to the file:
 
 
 💡 SLOs are **targets for SLIs**. They must be **achievable but challenging**.
-
+```
 
 
 ### Step 4: Define SLA (Service Level Agreement)
 
 Now add SLA details to the file:
 
-
+```markdown
 # Service Level Agreement (SLA)
 
 - SLA Uptime: 99% uptime per calendar month.
 - SLA Credit Policy: If uptime drops below 99%, customers will receive service credits.
-```
+
 
 ⚠️ **Reminder:** SLA is **customer-facing**, while SLOs are **internal targets**.
-
+```
 
 
 ### Step 5: Save and Exit the File
