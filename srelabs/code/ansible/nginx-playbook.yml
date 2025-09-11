@@ -1,0 +1,61 @@
+---
+- name: Install and Configure Nginx with HTTPS
+  hosts: srelabserver
+  become: yes
+  tasks:
+    - name: Install Nginx and OpenSSL
+      yum:
+        name:
+          - nginx
+          - openssl
+        state: present
+
+    - name: Start and enable Nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Create SSL directory
+      file:
+        path: /etc/nginx/ssl
+        state: directory
+        mode: '0755'
+
+    - name: Generate self-signed SSL certificate
+      command: >
+        openssl req -x509 -nodes -days 365
+        -newkey rsa:2048
+        -keyout /etc/nginx/ssl/nginx.key
+        -out /etc/nginx/ssl/nginx.crt
+        -subj "/C=US/ST=CA/L=SanFrancisco/O=SRETraining/OU=DevOps/CN=localhost"
+      args:
+        creates: /etc/nginx/ssl/nginx.crt
+
+    - name: Configure Nginx for HTTPS
+      copy:
+        dest: /etc/nginx/conf.d/ssl.conf
+        content: |
+          server {
+              listen 443 ssl;
+              server_name localhost;
+
+              ssl_certificate /etc/nginx/ssl/nginx.crt;
+              ssl_certificate_key /etc/nginx/ssl/nginx.key;
+
+              location / {
+                  root /usr/share/nginx/html;
+                  index index.html;
+              }
+          }
+
+          server {
+              listen 80;
+              server_name localhost;
+              return 301 https://$host$request_uri;
+          }
+
+    - name: Reload Nginx
+      service:
+        name: nginx
+        state: reloaded
