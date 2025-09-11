@@ -1,21 +1,56 @@
 version: "3.8"
 
 services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: demo_nginx
+    ports:
+      - "8081:8081"   # nginx /nginx_status exposed on host
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8081/nginx_status || exit 1"]
+      interval: 3s
+      timeout: 2s
+      retries: 10
+      start_period: 5s
+    networks:
+      - demo-net
+    restart: unless-stopped
+
+  exporter:
+    build:
+      context: ./exporter
+      dockerfile: Dockerfile
+    container_name: demo_nginx_exporter
+    depends_on:
+      nginx:
+        condition: service_healthy
+    ports:
+      - "9113:9113"   # Prometheus will scrape this
+    environment:
+      - NGINX_STATUS_URL=http://nginx:8081/nginx_status
+      - REQUEST_TIMEOUT=3
+      - MAX_RETRIES=3
+      - BACKOFF_BASE=0.5
+    networks:
+      - demo-net
+    restart: unless-stopped
+
   prometheus:
     image: prom/prometheus:latest
-    container_name: prometheus
+    container_name: demo_prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
     ports:
       - "9090:9090"
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+    networks:
+      - demo-net
+    restart: unless-stopped
 
-  grafana:
-    image: grafana/grafana:latest
-    container_name: grafana
-    ports:
-      - "3000:3000"
-    volumes:
-      - grafana-storage:/var/lib/grafana
+networks:
+  demo-net:
+    driver: bridge
 
-volumes:
-  grafana-storage:
