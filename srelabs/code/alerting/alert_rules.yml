@@ -1,0 +1,68 @@
+groups:
+- name: nginx_alerts
+  rules:
+
+  # 1) Primary: exporter reports scrape errors (explicit)
+  - alert: NginxExporterScrapeFailed
+    expr: nginxexporter_last_scrape_error > 0
+    for: 15s
+    labels:
+      severity: critical
+    annotations:
+      summary: "Nginx exporter scrape failed on {{ $labels.instance }}"
+      description: "The nginx prometheus exporter reports scrape errors. Nginx may be stopped or unreachable."
+
+  # 2) Fallback: exporter target is down (Prometheus 'up' for job nginx)
+  - alert: NginxExporterDown
+    expr: up{job="nginx"} == 0
+    for: 15s
+    labels:
+      severity: critical
+    annotations:
+      summary: "Nginx exporter target down on {{ $labels.instance }}"
+      description: "Prometheus reports the nginx exporter job as down. Check exporter process & nginx stub_status."
+
+  # 3) Nginx metrics missing (no time series)
+  - alert: NginxMetricsMissing
+    expr: absent(nginx_http_requests_total)
+    for: 30s
+    labels:
+      severity: critical
+    annotations:
+      summary: "Nginx metrics missing for {{ $labels.instance }}"
+      description: "Prometheus cannot see nginx_http_requests_total. This usually means exporter cannot scrape nginx."
+
+  # 4) No requests observed (traffic drop to zero) — useful for public-facing pages
+  - alert: NginxNoTraffic
+    expr: increase(nginx_http_requests_total[5m]) == 0
+    for: 10m
+    labels:
+      severity: warning
+    annotations:
+      summary: "No HTTP requests to Nginx for 5m on {{ $labels.instance }}"
+      description: "There have been no HTTP requests to nginx in the last 5 minutes (may indicate outage or traffic routing issue)."
+
+  # 5) Sudden spike of 5xx responses (example of degraded state)
+  - alert: NginxHighErrors
+    expr: increase(nginx_http_responses_total{status=~"5.."}[5m]) > 0
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Nginx serving 5xx responses on {{ $labels.instance }}"
+      description: "Nginx is returning 5xx responses (server errors). Check upstream/backends and resource use."
+
+  # 6) Combined: exporter scrape failed OR metrics absent -> critical (synthetic combined)
+  - alert: NginxDown
+    expr: (nginxexporter_last_scrape_error > 0) OR absent(nginx_http_requests_total)
+    for: 15s
+    labels:
+      severity: critical
+    annotations:
+      summary: "Nginx likely down or unreachable on {{ $labels.instance }}"
+      description: |
+        One or more signals indicate nginx is down:
+        - exporter scrape error OR
+        - nginx metrics missing.
+        Check nginx service, exporter, and network connectivity.
+

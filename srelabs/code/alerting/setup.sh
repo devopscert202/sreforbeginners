@@ -1,9 +1,6 @@
 
----
-
 ## `setup.sh` (copy this file exactly; save as `setup.sh` and run with `sudo`)
 
-```bash
 #!/usr/bin/env bash
 # setup.sh - installs Prometheus, Alertmanager, node_exporter, nginx-prometheus-exporter,
 # nginx, Python3, Flask webhook, and creates systemd units and configs.
@@ -46,7 +43,7 @@ sudo useradd --no-create-home --shell /sbin/nologin nodeexp 2>/dev/null || true
 # Install base packages
 if [ -n "$PKG_INSTALL" ]; then
   echoinfo "Installing base packages..."
-  sudo ${PKG_INSTALL} wget tar gzip curl nano
+  sudo ${PKG_INSTALL} wget tar gzip 
   sudo ${PKG_INSTALL} nginx python3 python3-pip
 fi
 
@@ -57,17 +54,16 @@ fi
 pip3 install --user flask >/dev/null 2>&1 || sudo pip3 install flask
 
 # Download and install Node Exporter
-cd "${TMPDIR}"
 NE_ARCH="node_exporter-${NODE_EXPORTER_VER}.linux-amd64"
-echoinfo "Downloading node_exporter ${NODE_EXPORTER_VER}..."
-wget -q "https://github.com/prometheus/node_exporter/releases/download/v${NODE_EXPORTER_VER}/${NE_ARCH}.tar.gz"
-tar xzf "${NE_ARCH}.tar.gz"
+cd "${TMPDIR}"
+sudo wget https://github.com/prometheus/node_exporter/releases/download/v1.8.1/node_exporter-1.8.1.linux-amd64.tar.gz
+tar xzvf "${NE_ARCH}.tar.gz"
 sudo cp "${NE_ARCH}/node_exporter" "${BIN_DIR}/"
 sudo chown nodeexp:nodeexp "${BIN_DIR}/node_exporter" || true
 
 # Download and install Nginx Prometheus Exporter
 echoinfo "Downloading nginx-prometheus-exporter ${NGINX_EXPORTER_VER}..."
-wget -q "https://github.com/nginxinc/nginx-prometheus-exporter/releases/download/v${NGINX_EXPORTER_VER}/nginx-prometheus-exporter_${NGINX_EXPORTER_VER}_linux_amd64.tar.gz"
+sudo wget https://github.com/nginxinc/nginx-prometheus-exporter/releases/download/v0.11.0/nginx-prometheus-exporter_0.11.0_linux_amd64.tar.gz
 tar xzf "nginx-prometheus-exporter_${NGINX_EXPORTER_VER}_linux_amd64.tar.gz" || true
 # exporter binary may be in current dir or inside archive
 if [ -f "nginx-prometheus-exporter" ]; then
@@ -81,7 +77,7 @@ sudo chown root:root "${BIN_DIR}/nginx-prometheus-exporter" || true
 # Download and install Prometheus
 echoinfo "Downloading prometheus ${PROMETHEUS_VER}..."
 PROM_ARCH="prometheus-${PROMETHEUS_VER}.linux-amd64"
-wget -q "https://github.com/prometheus/prometheus/releases/download/v${PROMETHEUS_VER}/${PROM_ARCH}.tar.gz"
+sudo wget https://github.com/prometheus/prometheus/releases/download/v2.53.1/prometheus-2.53.1.linux-amd64.tar.gz
 tar xzf "${PROM_ARCH}.tar.gz"
 sudo cp "${PROM_ARCH}/prometheus" "${BIN_DIR}/"
 sudo cp "${PROM_ARCH}/promtool" "${BIN_DIR}/"
@@ -90,7 +86,7 @@ sudo chown root:root "${BIN_DIR}/prometheus" "${BIN_DIR}/promtool" || true
 # Download and install Alertmanager
 echoinfo "Downloading alertmanager ${ALERTMANAGER_VER}..."
 AM_ARCH="alertmanager-${ALERTMANAGER_VER}.linux-amd64"
-wget -q "https://github.com/prometheus/alertmanager/releases/download/v${ALERTMANAGER_VER}/${AM_ARCH}.tar.gz"
+sudo wget https://github.com/prometheus/alertmanager/releases/download/v0.27.0/alertmanager-0.27.0.linux-amd64.tar.gz
 tar xzf "${AM_ARCH}.tar.gz"
 sudo cp "${AM_ARCH}/alertmanager" "${BIN_DIR}/"
 sudo cp "${AM_ARCH}/amtool" "${BIN_DIR}/"
@@ -280,7 +276,7 @@ server {
     listen 127.0.0.1:80;
     server_name  localhost;
     location /stub_status {
-        stub_status;
+        stub_status on;
         allow 127.0.0.1;
         deny all;
     }
